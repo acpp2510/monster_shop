@@ -1,5 +1,6 @@
 package com.api.monster_shop.controllers;
 
+import com.api.monster_shop.dtos.product.ProductMapper;
 import com.api.monster_shop.dtos.product.ProductRequest;
 import com.api.monster_shop.dtos.product.ProductResponse;
 import com.api.monster_shop.models.Product;
@@ -27,10 +28,11 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Product> getForId(@PathVariable Long id){
+    public ResponseEntity<ProductResponse> getForId(@PathVariable Long id){
         Product product = productService.getProductById(id).orElseThrow(() -> new ResponseStatusException(
                 HttpStatus.NOT_FOUND,"Product don´t found with ID: "+ id));
-        return new ResponseEntity<>(product, HttpStatus.OK);
+        ProductResponse productResponse = ProductMapper.entityToDto(product);
+        return new ResponseEntity<>(productResponse, HttpStatus.OK);
     }
 
     @PostMapping
@@ -39,11 +41,12 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Product> updateProduct (@PathVariable Long id, @RequestBody Product productDetails){
+    public ResponseEntity<ProductResponse> updateProduct (@PathVariable Long id, @Valid @RequestBody ProductRequest productDetails){
         Product existingProduct = productService.getProductById(id).orElseThrow(()-> new ResponseStatusException(
                 HttpStatus.NOT_FOUND, "Product not found with ID: " + id));
         Product updatedProduct = productService.updateProduct(existingProduct, productDetails);
-        return new ResponseEntity<Product>(updatedProduct,HttpStatus.OK);
+        ProductResponse productResponse = ProductMapper.entityToDto(updatedProduct);
+        return new ResponseEntity<>(productResponse,HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")

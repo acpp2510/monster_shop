@@ -33,13 +33,13 @@ public class ProductService {
         return ProductMapper.entityToDto(savedProduct);
     }
 
-    public Product updateProduct (Product product, Product newDetails){
-        product.setName(newDetails.getName());
-        product.setPrice(newDetails.getPrice());
-        product.setImageUrl(newDetails.getImageUrl());
-        product.setRating(newDetails.getRating());
-        product.setReviewCount(newDetails.getReviewCount());
-        product.setFeatured(newDetails.isFeatured());
+    public Product updateProduct (Product product, ProductRequest newDetails){
+        product.setName(newDetails.name());
+        product.setPrice(newDetails.price());
+        product.setImageUrl(newDetails.imageUrl());
+        product.setRating(newDetails.rating());
+        product.setReviewCount(newDetails.reviewCount());
+        product.setFeatured(newDetails.featured());
         return productRepository.save(product);
     }
 
