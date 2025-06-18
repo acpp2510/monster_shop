@@ -1,7 +1,5 @@
-package com.api.monster_shop.dtos;
+package com.api.monster_shop.dtos.product;
 
-import com.api.monster_shop.dtos.product.ProductRequest;
-import com.api.monster_shop.dtos.product.ProductResponse;
 import com.api.monster_shop.models.Product;
 
 public class ProductMapper {

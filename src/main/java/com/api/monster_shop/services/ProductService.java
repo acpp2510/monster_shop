@@ -1,5 +1,8 @@
 package com.api.monster_shop.services;
 
+import com.api.monster_shop.dtos.product.ProductMapper;
+import com.api.monster_shop.dtos.product.ProductRequest;
+import com.api.monster_shop.dtos.product.ProductResponse;
 import com.api.monster_shop.models.Product;
 import com.api.monster_shop.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -15,16 +18,19 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public List<Product> getAllProducts(){
-        return productRepository.findAll();
+    public List<ProductResponse> getAllProducts(){
+        List<Product> products = productRepository.findAll();
+        return products.stream().map(product -> ProductMapper.entityToDto(product)).toList();
     }
 
     public Optional<Product> getProductById (Long id){
         return productRepository.findById(id);
     }
 
-    public Product saveProduct (Product newProduct){
-        return productRepository.save(newProduct);
+    public ProductResponse saveProduct (ProductRequest productRequest){
+        Product newProduct = ProductMapper.dtoToEntity(productRequest);
+        Product savedProduct = productRepository.save(newProduct);
+        return ProductMapper.entityToDto(savedProduct);
     }
 
     public Product updateProduct (Product product, Product newDetails){
