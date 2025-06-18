@@ -18,7 +18,7 @@ public record ProductRequest(
         @Size(max = 255, message = "Image URL cannot exceed 255 characters")
         String imageUrl,
 
-        @NotBlank(message = " rating is required")
+        @NotNull(message = " rating is required")
         @Max(value = 5, message = "Maximum rating is 5")
         @Min(value = 0, message = "Minimum rating is 0")
         Double rating,
