@@ -1,7 +1,10 @@
 package com.api.monster_shop.controllers;
 
+import com.api.monster_shop.dtos.product.ProductRequest;
+import com.api.monster_shop.dtos.product.ProductResponse;
 import com.api.monster_shop.models.Product;
 import com.api.monster_shop.services.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,9 +22,8 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts(){
-        List<Product> products = productService.getAllProducts();
-        return new ResponseEntity<List<Product>>(products, HttpStatus.OK);
+    public ResponseEntity<List<ProductResponse>> getAllProducts(){
+        return new ResponseEntity<>(productService.getAllProducts(),HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
@@ -32,9 +34,8 @@ public class ProductController {
     }
 
     @PostMapping
-    public ResponseEntity<Product> addProduct (@RequestBody Product newProduct){
-        Product createdProduct = productService.saveProduct(newProduct);
-        return new ResponseEntity<Product>(createdProduct, HttpStatus.CREATED);
+    public ResponseEntity<ProductResponse> addProduct (@Valid @RequestBody ProductRequest productRequest){
+        return new ResponseEntity<>(productService.saveProduct(productRequest), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
