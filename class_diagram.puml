@@ -1,0 +1,107 @@
+@startuml
+
+class Product {
+  - id: Long
+  - name: String
+  - description: String
+  - price: double
+  - stock: int
+  - category: String
+  + getId(): Long
+  + setId(Long): void
+  + getName(): String
+  + setName(String): void
+  + getDescription(): String
+  + setDescription(String): void
+  + getPrice(): double
+  + setPrice(double): void
+  + getStock(): int
+  + setStock(int): void
+  + getCategory(): String
+  + setCategory(String): void
+}
+
+class Review {
+  - id: Long
+  - username: String
+  - rating: double
+  - body: String
+  - product: Product
+  + getId(): Long
+  + setId(Long): void
+  + getUsername(): String
+  + setUsername(String): void
+  + getRating(): double
+  + setRating(double): void
+  + getBody(): String
+  + setBody(String): void
+  + getProduct(): Product
+  + setProduct(Product): void
+}
+
+class ReviewRequest {
+  + productId(): Long
+  + username(): String
+  + rating(): double
+  + body(): String
+}
+
+class ReviewResponse {
+  + id(): Long
+  + username(): String
+  + rating(): double
+  + body(): String
+  + productId(): Long
+}
+
+class ReviewMapper {
+  + dtoToEntity(ReviewRequest, Product): Review
+  + entityToDto(Review): ReviewResponse
+}
+
+class ProductRepository
+class ReviewRepository
+
+class ProductService {
+  + getAllProducts(): List\<ProductResponse\>
+  + getProductById(Long): ProductResponse
+  + createProduct(ProductRequest): ProductResponse
+  + updateProduct(Long, ProductRequest): ProductResponse
+  + deleteProduct(Long): void
+}
+
+class ReviewService {
+  + getReviewsByProductId(Long): List\<ReviewResponse\>
+  + saveReview(ReviewRequest): ReviewResponse
+  + getAllReviews(): List\<ReviewResponse\>
+  + deleteReview(Long): void
+}
+
+class ProductController {
+  + getAllProducts(): ResponseEntity\<List\<ProductResponse\>\>
+  + getProductById(Long): ResponseEntity\<ProductResponse\>
+  + createProduct(ProductRequest): ResponseEntity\<ProductResponse\>
+  + updateProduct(Long, ProductRequest): ResponseEntity\<ProductResponse\>
+  + deleteProduct(Long): ResponseEntity\<Void\>
+}
+
+class ReviewController {
+  + getReviewsByProductId(Long): ResponseEntity\<List\<ReviewResponse\>\>
+  + addReview(ReviewRequest): ResponseEntity\<ReviewResponse\>
+  + getAllReviews(): ResponseEntity\<List\<ReviewResponse\>\>
+  + deleteReview(Long): ResponseEntity\<Void\>
+}
+
+Product "1" <-- "0..*" Review : contiene >
+ReviewService --> ReviewRepository
+ReviewService --> ProductRepository
+ReviewService --> ReviewMapper
+ReviewController --> ReviewService
+ReviewMapper --> Review
+ReviewMapper --> ReviewRequest
+ReviewMapper --> ReviewResponse
+ProductService --> ProductRepository
+ProductService --> ProductMapper
+ProductController --> ProductService
+
+@enduml
