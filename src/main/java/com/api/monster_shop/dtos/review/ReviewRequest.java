@@ -3,6 +3,9 @@ package com.api.monster_shop.dtos.review;
 import jakarta.validation.constraints.*;
 
 public record ReviewRequest(
+    @NotNull(message = "Product ID is required")
+    Long productId,
+
     @NotBlank(message = "Name is required")
     @Size(min = 2, max = 50, message = "Name must be contain min 2 and max 50 characters")
     String username,

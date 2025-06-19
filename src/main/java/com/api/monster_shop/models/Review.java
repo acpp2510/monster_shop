@@ -18,11 +18,23 @@ public class Review {
     @Column (nullable = false)
     private String body;
 
+    @ManyToOne
+    @JoinColumn(name = "productId", nullable = false)
+    private Product product;
+
     public Review() {
     }
 
-    public Review(Long id, String username, double rating, String body) {
+    public Review(Long id, String username, double rating, String body, Product product) {
         this.id = id;
+        this.username = username;
+        this.rating = rating;
+        this.body = body;
+        this.product = product;
+    }
+
+    public Review(Long productId, String username, double rating, String body) {
+        this.id = productId;
         this.username = username;
         this.rating = rating;
         this.body = body;
@@ -59,4 +71,15 @@ public class Review {
     public void setBody(String body) {
         this.body = body;
     }
+
+    public Product getProduct() {
+        return product;
+    }
+
+    public void setProduct(Product product) {
+        this.product = product;
+    }
+
+
 }
+
