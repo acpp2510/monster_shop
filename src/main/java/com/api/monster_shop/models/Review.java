@@ -33,8 +33,8 @@ public class Review {
         this.product = product;
     }
 
-    public Review(Long productId, String username, double rating, String body) {
-        this.id = productId;
+    public Review(Product product, String username, double rating, String body) {
+        this.product = product;
         this.username = username;
         this.rating = rating;
         this.body = body;
